@@ -74,7 +74,7 @@ exports.getChats = catchAsync(async (req, res, next) => {
       obj.chatName = `${obj.users[0].first_name} ${obj.users[0].last_name}`;
     } else if (obj.type === 'group' && !obj.photo) {
       obj.photo =
-        'https://res.cloudinary.com/dcu2kxr5x/image/upload/v1675105115/BACKBOOK/assets/group_fu7eoo.png';
+        'https://res.cloudinary.com/dw8k3b8h7/image/upload/v1687285624/group_hjcccf.png';
     }
     return obj;
   });
@@ -108,7 +108,7 @@ exports.createGroupChat = catchAsync(async (req, res, next) => {
 
   } else {
     chatType = 'group';
-    chatPhoto = 'https://res.cloudinary.com/dcu2kxr5x/image/upload/v1675105115/BACKBOOK/assets/group_fu7eoo.png';
+    chatPhoto = 'https://res.cloudinary.com/dw8k3b8h7/image/upload/v1687285624/group_hjcccf.png';
   }
 
   const newChat = await Chat.create({

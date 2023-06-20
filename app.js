@@ -24,8 +24,8 @@ const whitelist = [
   'http://192.168.1.6:3000',
   'http://192.168.1.2:8000',
   'http://localhost:3000',
-  'https://backbook.vercel.app',
-  'https://backbook-api.cyclic.app',
+  'https://jj-fb.vercel.app',
+  'https://fb-jx2e.onrender.com',
 ];
 const corsOptions = {
   credentials: true,
