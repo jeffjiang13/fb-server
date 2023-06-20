@@ -19,6 +19,7 @@ router
 
 // PROTECT ALL ROUTES AFTER THIS MIDDLEWARE
 router.use(authController.protect);
+router.get('/',userController.getAllUsers);
 
 router.put('/ping', authController.ping);
 router.post('/emailVerification', authController.activateAccount);

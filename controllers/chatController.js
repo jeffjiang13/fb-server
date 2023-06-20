@@ -93,28 +93,42 @@ exports.createGroupChat = catchAsync(async (req, res, next) => {
   if (!users || !chatName)
     return next(new AppError('Please Provide a users array and chatName', 400));
 
-  if (users.length < 2)
-    return next(new AppError('Please Provide at least 2 users', 400));
-
   users.push(user);
 
-  const newGroupChat = await Chat.create({
+  let chatType;
+  let chatPhoto;
+  let chatId;
+
+  if (users.length === 2) {
+    chatType = 'private';
+    // Fetch the profile image of the other user
+    const otherUser = await User.findById(users.find(u => u !== user));
+    chatPhoto = otherUser.profileImage; // Assuming the user's profile image is stored in a 'profileImage' field
+    chatId = otherUser.id; // Assigning the other user's id as chatId
+
+  } else {
+    chatType = 'group';
+    chatPhoto = 'https://res.cloudinary.com/dcu2kxr5x/image/upload/v1675105115/BACKBOOK/assets/group_fu7eoo.png';
+  }
+
+  const newChat = await Chat.create({
+    _id: chatId,
     chatName,
-    type: 'group',
+    type: chatType,
     users,
     groupAdmin: user,
-    photo:
-      'https://res.cloudinary.com/dcu2kxr5x/image/upload/v1675105115/BACKBOOK/assets/group_fu7eoo.png',
+    photo: chatPhoto,
   });
 
-  await newGroupChat.save();
+  await newChat.save();
 
-  // Send reponse
+  // Send response
   res.status(200).json({
     status: 'success',
-    data: { chat: newGroupChat },
+    data: { chat: newChat },
   });
 });
+
 
 exports.renameGroupChat = catchAsync(async (req, res, next) => {
   const user = req.user.id;

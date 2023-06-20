@@ -206,14 +206,38 @@ const userSchema = new mongoose.Schema(
         type: String,
         trim: true,
       },
+      city: {
+        type: String,
+        trim: true,
+      },
       relationship: {
         type: String,
-        enum: ['Single', 'In a realationship', 'Married', 'Divorced', ''],
+        enum: ['Single', 'In a relationship', 'Married', 'Divorced', ''],
+      },
+      familyMembers: {
+        type: String,
+        trim: true,
       },
       instagram: {
         type: String,
         trim: true,
       },
+      pronunciation: {
+        type: String,
+        trim: true,
+      },
+      favoriteQuotes: {
+        type: String,
+        trim: true,
+      },
+      bloodGroup: {
+        type: String,
+        trim: true,
+      },
+      lifeEvent: {
+        type: String,
+        trim: true,
+      }
     },
   },
   {

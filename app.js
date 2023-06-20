@@ -14,6 +14,7 @@ const postRoutes = require('./routes/postRoutes');
 const friendsRoutes = require('./routes/friendsRoutes');
 const messagesRoutes = require('./routes/messagesRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const photoRoutes = require('./routes/photoRoutes');
 
 const app = express();
 
@@ -96,6 +97,7 @@ app.use('/api/v1/posts', postRoutes);
 app.use('/api/v1/friends', friendsRoutes);
 app.use('/api/v1/chats', chatRoutes);
 app.use('/api/v1/messages', messagesRoutes);
+app.use('/api/v1', photoRoutes);  // Adjust according to your API versioning and routes structure
 
 // app.use((req, res, next) => {
 //   res.sendFile(path.join(__dirname, 'build', 'index.html'));
