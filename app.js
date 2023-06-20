@@ -26,7 +26,7 @@ const whitelist = [
   'http://localhost:3000',
   'https://jj-fb.vercel.app',
   'https://fb-jx2e.onrender.com',
-  'fb-server.up.railway.app'
+  'https://fb-server.up.railway.app'
 ];
 const corsOptions = {
   credentials: true,
