@@ -15,7 +15,11 @@ exports.uploadToCloudinary = async (file, path, resourceType = "image") => {
         .upload_stream({ resource_type: resourceType, folder: path },
           function (error, result) {
             if (error) reject(error);
-            else resolve(result);
+            else {
+              // Convert the URL to HTTPS before resolving
+              result.url = cloudinary.url(result.url, {secure: true});
+              resolve(result);
+            }
           }
         )
         .end(file);
@@ -24,6 +28,7 @@ exports.uploadToCloudinary = async (file, path, resourceType = "image") => {
     }
   });
 };
+
 
 
 
