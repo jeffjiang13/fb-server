@@ -200,25 +200,8 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
     post.reactions.isLiked = reactionsIds.includes(post._id.toString())
       ? reactions.find((o) => o.post.toString() === post._id.toString()).type
       : '';
-    // Convert http to https in image URLs
-    if (post.images && post.images.length > 0) {
-      post.images = post.images.map((image) => {
-        if (image.startsWith('http:')) {
-          return 'https:' + image.substring(5);
-        }
-        return image;
-      });
-    }
 
-    // Convert http to https in video URLs
-    if (post.video && post.video.length > 0) {
-      post.video = post.video.map((vid) => {
-        if (vid.startsWith('http:')) {
-          return 'https:' + vid.substring(5);
-        }
-        return vid;
-      });
-    }
+    return post;
   });
 
   // console.log(reactions);
@@ -245,25 +228,7 @@ exports.getPost = catchAsync(async (req, res, next) => {
     reaction?.post.toString() === checkPost._id.toString()
       ? reaction?.type
       : '';
-  // Convert http to https in image URLs
-  if (checkPost.images && checkPost.images.length > 0) {
-    checkPost.images = checkPost.images.map((image) => {
-      if (image.startsWith('http:')) {
-        return 'https:' + image.substring(5);
-      }
-      return image;
-    });
-  }
 
-  // Convert http to https in video URLs
-  if (checkPost.video && checkPost.video.length > 0) {
-    checkPost.video = checkPost.video.map((vid) => {
-      if (vid.startsWith('http:')) {
-        return 'https:' + vid.substring(5);
-      }
-      return vid;
-    });
-  }
   // Send reponse
   res.status(200).json({
     status: 'success',
