@@ -200,7 +200,10 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
     post.reactions.isLiked = reactionsIds.includes(post._id.toString())
       ? reactions.find((o) => o.post.toString() === post._id.toString()).type
       : '';
-
+    // Convert http to https in URLs
+    if (post.url && post.url.startsWith('http:')) {
+      post.url = 'https:' + post.url.substring(5);
+    }
     return post;
   });
 
@@ -228,7 +231,10 @@ exports.getPost = catchAsync(async (req, res, next) => {
     reaction?.post.toString() === checkPost._id.toString()
       ? reaction?.type
       : '';
-
+  // Convert http to https in URLs
+  if (checkPost.url && checkPost.url.startsWith('http:')) {
+    checkPost.url = 'https:' + checkPost.url.substring(5);
+  }
   // Send reponse
   res.status(200).json({
     status: 'success',
