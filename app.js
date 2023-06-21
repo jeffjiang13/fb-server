@@ -24,7 +24,7 @@ const whitelist = [
   'http://192.168.1.6:3000',
   'http://192.168.1.2:8000',
   'http://localhost:3000',
-  'https://jj-fb.vercel.app',
+  'https://jj-facebook.vercel.app',
   'https://fb-jx2e.onrender.com',
   'https://fb-server.up.railway.app'
 ];
