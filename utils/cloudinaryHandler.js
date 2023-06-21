@@ -7,7 +7,6 @@ cloudinary.config({
   secure: true,
 
 });
-
 exports.uploadToCloudinary = async (file, path, resourceType = "image") => {
   return new Promise((resolve, reject) => {
     if (file) {
@@ -16,8 +15,10 @@ exports.uploadToCloudinary = async (file, path, resourceType = "image") => {
           function (error, result) {
             if (error) reject(error);
             else {
-              // Convert the URL to HTTPS before resolving
-              result.url = cloudinary.url(result.url, {secure: true});
+              // Manually replace 'http' with 'https' in the URL before resolving
+              if (result.url.startsWith('http://')) {
+                result.url = 'https://' + result.url.substr(7);
+              }
               resolve(result);
             }
           }
