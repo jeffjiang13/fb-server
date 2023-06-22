@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const AppError = require('./utils/appError');
 const GlobalErrorHandler = require('./controllers/errorController');
 const { createServer } = require('http');
+const helmet = require('helmet');  // import helmet
 
 const usersRouter = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
@@ -17,6 +18,15 @@ const chatRoutes = require('./routes/chatRoutes');
 const photoRoutes = require('./routes/photoRoutes');
 
 const app = express();
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", 'https://apis.google.com', "'wasm-unsafe-eval'", "'inline-speculation-rules'"],
+    // add other directives as needed
+  },
+}));
+
 
 const whitelist = [
   'http://127.0.0.1:3000',

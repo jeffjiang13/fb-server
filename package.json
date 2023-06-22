@@ -24,6 +24,7 @@
     "fcm-node": "^1.6.1",
     "file-type": "^18.5.0",
     "file-type-ext": "^1.0.1",
+    "helmet": "^7.0.0",
     "html-to-text": "^8.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.12.1",
