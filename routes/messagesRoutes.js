@@ -9,7 +9,15 @@ const router = express.Router();
 router.use(authController.protect);
 
 router.get('/:chatId', messagesController.getMessages);
-router.put('/:chatId/send', messagesController.sendMessage);
+
+// upload and process image before sending a message
+router.put(
+  '/:chatId/send',
+  messagesController.uploadMessageImage,
+  messagesController.processMessageImage,
+  messagesController.sendMessage
+);
+
 router.put('/:msgId/seen', messagesController.seenMessage);
 
 module.exports = router;

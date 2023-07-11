@@ -30,7 +30,6 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 exports.uploadVideo = upload.single('video');
 
@@ -39,9 +38,9 @@ exports.processVideo = catchAsync(async (req, res, next) => {
     return next(new AppError('Please upload a video', 400));
   }
   const path = `${process.env.APP_NAME}/users/${req.user.id}/public/posts/`;
-  const filePath = await uploadToCloudinary(req.file.buffer, path, "video");
+  const filePath = await uploadToCloudinary(req.file.buffer, path, 'video');
 
-  req.body.video = filePath.url;  // assign directly
+  req.body.video = filePath.url; // assign directly
 
   next();
 });
@@ -67,7 +66,6 @@ exports.createVideoPost = catchAsync(async (req, res, next) => {
     },
   });
 });
-
 
 exports.uploadPostImages = upload.fields([
   { name: 'images', maxCount: 5 },
@@ -109,23 +107,21 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
   if (req.files.video) {
     if (req.files.video.length > 1)
       return next(new AppError('You can upload 1 video max', 400));
-      console.log("files", req.files);
+    console.log('files', req.files);
 
     await Promise.all(
       req.files.video.map(async (file, i) => {
         const path = `${process.env.APP_NAME}/users/${req.user.id}/public/posts/`;
 
-        const filePath = await uploadToCloudinary(file.buffer, path, "video");
+        const filePath = await uploadToCloudinary(file.buffer, path, 'video');
 
-        req.body.video = filePath.url;  // assign directly
+        req.body.video = filePath.url; // assign directly
       })
     );
   }
 
   next();
 });
-
-
 
 exports.uploadCommentPhoto = upload.single('photo');
 
@@ -140,7 +136,6 @@ exports.resizeCommentPhoto = catchAsync(async (req, res, next) => {
     .toBuffer();
 
   const filePath = await uploadToCloudinary(processedImage, path);
-
   req.body.photo = filePath.url;
 
   next();
@@ -155,7 +150,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
     type,
     text,
     images,
-    video,    // save video
+    video, // save video
     background,
     sharedID,
   });
@@ -164,7 +159,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
   if (type === 'share')
     await newPost.populate({
       path: 'sharedID',
-      select: 'images user type text video background',  // populate video
+      select: 'images user type text video background', // populate video
     });
 
   res.status(200).json({
@@ -172,7 +167,6 @@ exports.createPost = catchAsync(async (req, res, next) => {
     data: newPost,
   });
 });
-
 
 exports.getAllPosts = catchAsync(async (req, res, next) => {
   const user = req.user.id;
@@ -342,7 +336,6 @@ exports.addComment = catchAsync(async (req, res, next) => {
   if (!checkPost) return next(new AppError('No post found', 404));
 
   const filteredBody = filterObj(req.body, 'photo', 'text');
-
   const commendData = await Comment.create({
     user: user,
     post,

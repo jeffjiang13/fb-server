@@ -6,8 +6,56 @@ const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 const User = require('../models/userModel');
 const Notification = require('../utils/notification');
-
+const { uploadToCloudinary } = require('../utils/cloudinaryHandler');
 const ObjectId = mongoose.Types.ObjectId;
+const multer = require('multer');
+const sharp = require('sharp');
+
+
+const filterObj = (obj, ...allowed) => {
+  const newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (allowed.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image') || file.mimetype.startsWith('video')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Please upload only images and video', 400), false);
+  }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+exports.uploadMessageImage = upload.single('image');
+
+exports.processMessageImage = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  const path = `${process.env.APP_NAME}/users/${req.user.id}/public/messages/`;
+
+  const processedImage = await sharp(req.file.buffer)
+    .toFormat('webp')
+    .webp({ quality: 70 })
+    .toBuffer();
+
+  const filePath = await uploadToCloudinary(processedImage, path);
+  // Check if filepath successfully returned
+  if(filePath && filePath.url) {
+    req.body.image = filePath.url;
+    console.log("body",req.body.image);
+    next();
+  } else {
+    res.status(500).json({
+      status: 'fail',
+      message: 'Error processing image, please try again'
+    });
+  }
+});
 
 exports.sendMessage = catchAsync(async (req, res, next) => {
   const { content, type } = req.body;
@@ -21,12 +69,14 @@ exports.sendMessage = catchAsync(async (req, res, next) => {
   const targetId = new ObjectId(userId);
   if (!existingChat.users.some((id) => id.equals(targetId)))
     return next(new AppError('You are not member in this chat', 400));
+    const filteredBody = filterObj(req.body, 'image');
 
   const newMessage = await Message.create({
     type,
     sender: userId,
     content: content,
     chat: chatId,
+    image: filteredBody.image,
   });
 
   await newMessage.save();

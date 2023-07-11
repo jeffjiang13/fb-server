@@ -16,11 +16,17 @@ const messageSchema = mongoose.Schema(
       trim: true,
       validate: {
         validator: function (val) {
-          if (this.type === 'like') return true;
+          if (this.type === 'like' || this.type === 'image') return true;
           return validator.isLength(val, { min: 1, max: 400 });
         },
         message: 'Message must have a content at least 1 charcters ',
       },
+    },
+    image: {
+      type: String,
+    },
+    emoji: {
+      type: String,
     },
     chat: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat' },
     seen: {
