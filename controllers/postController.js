@@ -35,7 +35,7 @@ exports.uploadVideo = upload.single('video');
 
 exports.processVideo = catchAsync(async (req, res, next) => {
   if (!req.file) {
-    return next(new AppError('Please upload a video', 400));
+    return next();
   }
   const path = `${process.env.APP_NAME}/users/${req.user.id}/public/posts/`;
   const filePath = await uploadToCloudinary(req.file.buffer, path, 'video');
@@ -180,7 +180,6 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .paginate();
-  // const doc = await features.query.explain();
   const posts = await features.query;
   const ids = posts.map((el) => el._id);
 
@@ -198,7 +197,6 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
     return post;
   });
 
-  // console.log(reactions);
   res.status(200).json({
     status: 'success',
     length: posts.length,
