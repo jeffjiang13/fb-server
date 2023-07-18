@@ -40,7 +40,7 @@ exports.processVideo = catchAsync(async (req, res, next) => {
   const path = `${process.env.APP_NAME}/users/${req.user.id}/public/posts/`;
   const filePath = await uploadToCloudinary(req.file.buffer, path, 'video');
 
-  req.body.video = filePath.url; // assign directly
+  req.body.video = filePath.url;
 
   next();
 });
@@ -107,7 +107,6 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
   if (req.files.video) {
     if (req.files.video.length > 1)
       return next(new AppError('You can upload 1 video max', 400));
-    console.log('files', req.files);
 
     await Promise.all(
       req.files.video.map(async (file, i) => {
@@ -115,7 +114,7 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
 
         const filePath = await uploadToCloudinary(file.buffer, path, 'video');
 
-        req.body.video = filePath.url; // assign directly
+        req.body.video = filePath.url;
       })
     );
   }
@@ -145,12 +144,16 @@ exports.createPost = catchAsync(async (req, res, next) => {
   const { type, text, images, video, background, sharedID } = req.body;
 
   const user = req.user.id;
+console.log("req.body",req.body)
+console.log("req.files",req.files)
+
+
   const newPost = await Post.create({
     user,
     type,
     text,
     images,
-    video, // save video
+    video,
     background,
     sharedID,
   });
@@ -159,7 +162,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
   if (type === 'share')
     await newPost.populate({
       path: 'sharedID',
-      select: 'images user type text video background', // populate video
+      select: 'images user type text video background',
     });
 
   res.status(200).json({
