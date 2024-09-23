@@ -17,7 +17,7 @@ module.exports = class Notification {
         title: 'facebook',
         body: body,
         click_action: click,
-        icon: 'https://res.cloudinary.com/dw8k3b8h7/image/upload/v1727128509/2021_Facebook_icon_jywgvt.svg',
+        icon: 'https://res.cloudinary.com/dw8k3b8h7/image/upload/v1727129974/Facebook_Logo_2023_ztfxsi.png',
       },
     };
 
