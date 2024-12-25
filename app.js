@@ -37,7 +37,7 @@ const whitelist = [
   'https://jj-facebook.vercel.app',
   'https://fb-jx2e.onrender.com',
   'https://fb-server.up.railway.app',
-  'https://jj-fb.netlify.app/'
+  'https://jj-fb.netlify.app'
 ];
 const corsOptions = {
   credentials: true,
