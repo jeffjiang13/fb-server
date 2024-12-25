@@ -4,7 +4,7 @@
 This project is a sophisticated emulation of the renowned social media platform, Facebook, constructed utilizing the MERN stack - MongoDB, Express.js, React.js, and Node.js - and enhanced with the real-time capabilities of Socket.io. It delivers dynamic and interactive user experiences, including real-time messaging and notifications, mirroring the functionality of its mainstream counterpart 🔥.
 
 ## Demo
-https://jj-facebook.vercel.app
+https://jj-fb.netlify.app
 
 ## Backend Repository
 https://github.com/jeffjiang13/fb-server
